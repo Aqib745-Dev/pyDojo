@@ -1,32 +1,18 @@
-name: Build iOS Simulator .app for Appetize
-
-on:
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install XcodeGen
-        run: brew install xcodegen
-
-      - name: Generate Xcode project
-        run: xcodegen generate
-
-      - name: Build Simulator (.app)
-        run: |
-          set -euxo pipefail
-          xcodebuild \
-            -project PyDojo.xcodeproj \
-            -scheme PyDojo \
-            -configuration Debug \
-            -sdk iphonesimulator \
-            -destination "platform=iOS Simulator,name=iPad (10th generation),OS=18.5"
-
-            -derivedDataPath build \
-            clean build
+- name: Build Simulator (.app)
+  run: |
+    set -euxo pipefail
+    xcodebuild \
+      -project PyDojo.xcodeproj \
+      -scheme PyDojo \
+      -configuration Debug \
+      -sdk iphonesimulator \
+      -destination "platform=iOS Simulator,name=iPad (10th generation),OS=18.5" \
+      -derivedDataPath build \
+      CODE_SIGNING_ALLOWED=NO \
+      CODE_SIGNING_REQUIRED=NO \
+      CODE_SIGN_IDENTITY="" \
+      GENERATE_INFOPLIST_FILE=YES \
+      clean build
 
       - name: Zip the .app for Appetize
         run: |
