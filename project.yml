@@ -1,7 +1,20 @@
 name: PyDojo
+
 options:
   deploymentTarget:
     iOS: "16.0"
+
+settings:
+  base:
+    PRODUCT_BUNDLE_IDENTIFIER: com.pydojo.app
+    TARGETED_DEVICE_FAMILY: "1,2"
+    SWIFT_VERSION: "5.0"
+    SUPPORTED_PLATFORMS: "iphonesimulator iphoneos"
+    SUPPORTS_MACCATALYST: "NO"
+    GENERATE_INFOPLIST_FILE: "YES"
+    INFOPLIST_KEY_CFBundleDisplayName: "PyDojo"
+    INFOPLIST_KEY_UIApplicationSceneManifest_Generation: "YES"
+
 targets:
   PyDojo:
     type: application
@@ -10,7 +23,3 @@ targets:
       - path: ios/PyDojo
     resources:
       - path: ios/PyDojo/Curriculum.json
-    settings:
-      PRODUCT_BUNDLE_IDENTIFIER: com.example.pydojo
-      INFOPLIST_KEY_CFBundleDisplayName: PyDojo
-      INFOPLIST_KEY_UILaunchScreen_Generation: YES
