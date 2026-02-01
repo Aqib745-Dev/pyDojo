@@ -15,7 +15,7 @@ struct SettingsView: View {
                         Text("Tip: Start small. Consistency beats intensity.")
                             .font(.caption).foregroundStyle(theme.text.opacity(0.7))
                     }
-                    .onChange(of: goal) { _, newValue in vm.setDailyGoalMinutes(Int(newValue)) }
+                    .onChange(of: goal) { newValue in vm.setDailyGoalMinutes(Int(newValue)) }
                 }
                 Section("UI Theme") {
                     Picker("Theme", selection: $vm.themeStyle) {
