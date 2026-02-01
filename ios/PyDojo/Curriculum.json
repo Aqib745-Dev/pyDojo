@@ -1,0 +1,94 @@
+{
+  "lessons": [
+    {
+      "id": "white_1",
+      "title": "Hello, Python",
+      "belt": "white",
+      "estimatedMinutes": 5,
+      "exercises": [
+        {
+          "id": "e1",
+          "type": "predictOutput",
+          "promptMarkdown": "### Predict the output\\nWhat will this code print?",
+          "starterCode": "print('Hello, PyDojo!')",
+          "choices": [
+            "Hello, PyDojo!",
+            "hello, pydojo!",
+            "Nothing"
+          ],
+          "answer": "Hello, PyDojo!"
+        },
+        {
+          "id": "e2",
+          "type": "typeCode",
+          "promptMarkdown": "### Type code\\nPrint your name using `print()`.",
+          "starterCode": "# TODO: print your name\\n",
+          "tests": [
+            {
+              "id": "t1",
+              "name": "Printed something",
+              "input": null,
+              "expectedOutputContains": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "yellow_1",
+      "title": "If / Else Basics",
+      "belt": "yellow",
+      "estimatedMinutes": 7,
+      "exercises": [
+        {
+          "id": "e1",
+          "type": "fillBlank",
+          "promptMarkdown": "### Fill the blank\\nComplete the condition so it prints `Adult`.",
+          "starterCode": "age = 20\\nif ____:\\n    print('Adult')\\nelse:\\n    print('Minor')\\n",
+          "choices": [
+            "age >= 18",
+            "age <= 18",
+            "age == 0"
+          ],
+          "answer": "age >= 18"
+        },
+        {
+          "id": "e2",
+          "type": "debug",
+          "promptMarkdown": "### Debug\\nFix the code so it prints `Adult`.",
+          "starterCode": "age = 20\\nif age => 18:\\n    print('Adult')\\n",
+          "tests": [
+            {
+              "id": "t1",
+              "name": "Adult output",
+              "input": null,
+              "expectedOutputContains": "Adult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "green_project_1",
+      "title": "Project: Password Generator (Step 1)",
+      "belt": "green",
+      "estimatedMinutes": 10,
+      "exercises": [
+        {
+          "id": "p1",
+          "type": "projectStep",
+          "promptMarkdown": "### Project Step\\nCreate a variable `chars` that includes letters and digits.",
+          "starterCode": "import string\\n# TODO: chars = ...\\nprint('ok')\\n",
+          "tests": [
+            {
+              "id": "t1",
+              "name": "prints ok",
+              "input": null,
+              "expectedOutputContains": "ok"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
