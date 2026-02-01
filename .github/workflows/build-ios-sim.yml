@@ -16,33 +16,42 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
-      - name: Build Simulator (.app)
+      - name: Build Simulator (.app) - iOS 16 minimum, no signing
         run: |
           set -euxo pipefail
+
+          # Build for any simulator device that exists on the runner (we pick one that is always present)
           xcodebuild \
-          -project PyDojo.xcodeproj \
-          -scheme PyDojo \
-          -configuration Debug \
-          -sdk iphonesimulator \
-          -destination "platform=iOS Simulator,name=iPad (10th generation),OS=18.5" \
-          -derivedDataPath build \
-          CODE_SIGNING_ALLOWED=NO \
-          CODE_SIGNING_REQUIRED=NO \
-          CODE_SIGN_IDENTITY="" \
-          GENERATE_INFOPLIST_FILE=YES \
-          IPHONEOS_DEPLOYMENT_TARGET=16.0 \
-          clean build
+            -project PyDojo.xcodeproj \
+            -scheme PyDojo \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=iPhone 16,OS=18.5" \
+            -derivedDataPath build \
+            IPHONEOS_DEPLOYMENT_TARGET=16.0 \
+            GENERATE_INFOPLIST_FILE=YES \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            clean build
 
-
-      - name: Zip the .app for Appetize
+      - name: Zip the .app for Appetize (must contain *.app at zip root)
         run: |
           set -euxo pipefail
-          APP_PATH=$(find build/Build/Products -type d -name "*.app" | head -n 1)
+
+          APP_PATH=$(find build/Build/Products -type d -name "*.app" -path "*Debug-iphonesimulator*" | head -n 1)
           echo "Found .app at: $APP_PATH"
+          test -d "$APP_PATH"
+
+          rm -f PyDojo-sim.zip
           ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" PyDojo-sim.zip
+
+          echo "Zip content (top):"
+          unzip -l PyDojo-sim.zip | head -n 60
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PyDojo-simulator-app
+          name: PyDojo-sim
           path: PyDojo-sim.zip
