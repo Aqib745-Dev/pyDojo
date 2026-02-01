@@ -23,7 +23,7 @@ jobs:
             -scheme PyDojo \
             -configuration Debug \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -destination 'platform=iOS Simulator,name=Any iOS Simulator Device' \
             -derivedDataPath build \
             clean build
 
