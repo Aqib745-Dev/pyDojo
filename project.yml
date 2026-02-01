@@ -1,0 +1,16 @@
+name: PyDojo
+options:
+  deploymentTarget:
+    iOS: "17.0"
+targets:
+  PyDojo:
+    type: application
+    platform: iOS
+    sources:
+      - path: ios/PyDojo
+    resources:
+      - path: ios/PyDojo/Curriculum.json
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.example.pydojo
+      INFOPLIST_KEY_CFBundleDisplayName: PyDojo
+      INFOPLIST_KEY_UILaunchScreen_Generation: YES
