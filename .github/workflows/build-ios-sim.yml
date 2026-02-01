@@ -20,18 +20,19 @@ jobs:
         run: |
           set -euxo pipefail
           xcodebuild \
-            -project PyDojo.xcodeproj \
-            -scheme PyDojo \
-            -configuration Debug \
-            -sdk iphonesimulator \
-            -destination "platform=iOS Simulator,name=iPad (10th generation),OS=18.5" \
-            -derivedDataPath build \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
-            DEVELOPMENT_TEAM="" \
-            GENERATE_INFOPLIST_FILE=YES \
-            clean build
+          -project PyDojo.xcodeproj \
+          -scheme PyDojo \
+          -configuration Debug \
+          -sdk iphonesimulator \
+          -destination "platform=iOS Simulator,name=iPad (10th generation),OS=18.5" \
+          -derivedDataPath build \
+          CODE_SIGNING_ALLOWED=NO \
+          CODE_SIGNING_REQUIRED=NO \
+          CODE_SIGN_IDENTITY="" \
+          GENERATE_INFOPLIST_FILE=YES \
+          IPHONEOS_DEPLOYMENT_TARGET=16.0 \
+          clean build
+
 
       - name: Zip the .app for Appetize
         run: |
