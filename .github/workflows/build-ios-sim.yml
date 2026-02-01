@@ -1,57 +1,37 @@
-name: Build iOS Simulator .app for Appetize
-
+name: Build iOS Simulator (universal) for Appetize
 on:
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: macos-latest
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install XcodeGen
-        run: brew install xcodegen
-
-      - name: Generate Xcode project
-        run: xcodegen generate
-
-      - name: Build Simulator (.app) - iOS 16 minimum, no signing
+      - name: Build universal simulator .app
         run: |
-          set -euxo pipefail
+          set -e
 
-          # Build for any simulator device that exists on the runner (we pick one that is always present)
+          # EDIT THESE:
+          SCHEME="PyDojo"
+          PROJECT="PyDojo.xcodeproj"
+          CONFIG="Debug"
+
           xcodebuild \
-            -project PyDojo.xcodeproj \
-            -scheme PyDojo \
-            -configuration Debug \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration "$CONFIG" \
             -sdk iphonesimulator \
-            -destination "platform=iOS Simulator,name=iPhone 16,OS=18.5" \
+            -destination 'generic/platform=iOS Simulator' \
+            ARCHS="x86_64 arm64" \
+            ONLY_ACTIVE_ARCH=NO \
             -derivedDataPath build \
-            IPHONEOS_DEPLOYMENT_TARGET=16.0 \
-            GENERATE_INFOPLIST_FILE=YES \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
-            DEVELOPMENT_TEAM="" \
             clean build
 
-      - name: Zip the .app for Appetize (must contain *.app at zip root)
-        run: |
-          set -euxo pipefail
+          APP_PATH=$(find build/Build/Products -maxdepth 2 -type d -name "*.app" | head -n 1)
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" appetize.zip
 
-          APP_PATH=$(find build/Build/Products -type d -name "*.app" -path "*Debug-iphonesimulator*" | head -n 1)
-          echo "Found .app at: $APP_PATH"
-          test -d "$APP_PATH"
-
-          rm -f PyDojo-sim.zip
-          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" PyDojo-sim.zip
-
-          echo "Zip content (top):"
-          unzip -l PyDojo-sim.zip | head -n 60
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: PyDojo-sim
-          path: PyDojo-sim.zip
+          name: appetize-zip
+          path: appetize.zip
