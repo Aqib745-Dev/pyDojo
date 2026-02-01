@@ -1,7 +1,7 @@
 name: PyDojo
 options:
   deploymentTarget:
-    iOS: "17.0"
+    iOS: "15.0"
 targets:
   PyDojo:
     type: application
